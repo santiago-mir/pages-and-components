@@ -532,17 +532,46 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
-var _header = require("./components/header");
-var _largeTitle = require("./components/large-title");
-var _textInput = require("./components/text-input");
+var _welcome = require("./pages/welcome");
 function main() {
-    (0, _header.initHeader)();
-    (0, _largeTitle.initLargeTitle)("Te damos la bienvenida a esta p\xe1gina");
-    (0, _textInput.initTextInput)();
+    const root = document.querySelector(".root");
+    root?.appendChild((0, _welcome.initWelcomePage)());
 }
 main();
 
-},{"./components/header":"6hCU4","./components/large-title":"dmAWJ","./components/text-input":"iWTd3"}],"6hCU4":[function(require,module,exports) {
+},{"./pages/welcome":"fNSF3"}],"fNSF3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initWelcomePage", ()=>initWelcomePage);
+var _header = require("../../components/header");
+var _largeTitle = require("../../components/large-title");
+var _text = require("../../components/text");
+var _mediumTitle = require("../../components/medium-title");
+var _textInput = require("../../components/text-input");
+var _normalButton = require("../../components/normal-button");
+var _footer = require("../../components/footer");
+function initWelcomePage() {
+    const div = document.createElement("div");
+    div.innerHTML = `
+  <header-custom></header-custom>
+  <large-title-custom></large-title-custom>
+  <text-custom></text-custom>
+  <medium-title-custom></medium-title-custom>
+  <text-input-custom label="Nombre"></text-input-custom>
+  <button-custom></button-custom>
+  <footer-custom></footer-custom>
+  `;
+    (0, _header.initHeader)();
+    (0, _largeTitle.initLargeTitle)("Te damos la bienvenida a esta p\xe1gina");
+    (0, _text.initBodyText)("Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam consequuntur iure voluptas quia accusantium voluptatum aspernatur provident et repudiandae quam veritatis, libero porro sit beatae laboriosam a aut consequatur quidem?");
+    (0, _mediumTitle.initMediumTitle)("Para continuar ingres\xe1 tu nombre");
+    (0, _textInput.initTextInput)();
+    (0, _normalButton.initButton)("Comenzar");
+    (0, _footer.initFooter)();
+    return div;
+}
+
+},{"../../components/header":"6hCU4","../../components/large-title":"dmAWJ","../../components/text":"6Xncd","../../components/medium-title":"iCnXl","../../components/text-input":"iWTd3","../../components/normal-button":"j9Fnn","../../components/footer":"aoxsu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6hCU4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "initHeader", ()=>initHeader);
@@ -616,6 +645,46 @@ function initLargeTitle(content) {
     customElements.define("large-title-custom", CustomLargeTitle);
 }
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6Xncd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initBodyText", ()=>initBodyText);
+function initBodyText(content) {
+    class CustomBodyText extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            this.innerHTML = `${content}`;
+            this.style.fontFamily = "Poppins";
+            this.style.fontSize = "18px";
+            this.style.fontWeight = "400";
+        }
+    }
+    customElements.define("text-custom", CustomBodyText);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iCnXl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initMediumTitle", ()=>initMediumTitle);
+function initMediumTitle(content) {
+    class CustomMediumTitle extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            this.innerHTML = `${content}`;
+            this.style.fontFamily = "Poppins";
+            this.style.fontSize = "38px";
+            this.style.fontWeight = "700";
+        }
+    }
+    customElements.define("medium-title-custom", CustomMediumTitle);
+}
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iWTd3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -659,6 +728,74 @@ function initTextInput() {
         }
     }
     customElements.define("text-input-custom", CustomTextInput);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j9Fnn":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initButton", ()=>initButton);
+function initButton(content) {
+    class CustomButton extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            const shadow = this.attachShadow({
+                mode: "open"
+            });
+            const labelEl = this.getAttribute("label");
+            const style = document.createElement("style");
+            style.innerHTML = `
+        .root{
+            height: 65px;
+            display: flex;
+            justify-content: center;
+        }
+        .button{
+            background-color: pink;
+            flex-grow: 1;
+            max-width: 450px;
+            font-size: 22px;
+            font-family: "Poppins";
+            font-weight: 500;
+        }
+        
+        `;
+            const div = document.createElement("div");
+            div.classList.add("root");
+            div.innerHTML = `
+        <button class="button"><span>${content}</span></button>
+        `;
+            shadow.appendChild(style);
+            shadow.appendChild(div);
+        }
+    }
+    customElements.define("button-custom", CustomButton);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aoxsu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initFooter", ()=>initFooter);
+function initFooter() {
+    class CustomFooter extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            this.innerHTML = `<footer> Footer </Footer>`;
+            this.style.fontFamily = "Poppins";
+            this.style.fontSize = "22px";
+            this.style.display = "flex";
+            this.style.justifyContent = "center";
+            this.style.alignItems = "center";
+            this.style.backgroundColor = "#FFA0EA";
+            this.style.height = "150px";
+        }
+    }
+    customElements.define("footer-custom", CustomFooter);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["iJYvl","h7u1C"], "h7u1C", "parcelRequireca0a")
