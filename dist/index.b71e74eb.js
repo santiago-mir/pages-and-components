@@ -532,70 +532,63 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
-var _welcome = require("./pages/welcome");
+var _router = require("./router");
+var _header = require("./components/header");
+var _footer = require("./components/footer");
+var _normalButton = require("./components/normal-button");
+var _outlinedButton = require("./components/outlined-button");
+var _selectInput = require("./components/select-input");
+var _text = require("./components/text");
+var _textInput = require("./components/text-input");
 function main() {
     const root = document.querySelector(".root");
-    root?.appendChild((0, _welcome.initWelcomePage)());
+    (0, _header.initHeader)();
+    (0, _footer.initFooter)();
+    (0, _normalButton.initButton)("Comenzar");
+    (0, _outlinedButton.initOutlinedButton)("Seguir");
+    (0, _selectInput.initSelectInput)();
+    (0, _text.initText)();
+    (0, _textInput.initTextInput)();
+    (0, _router.initRouter)(root);
 }
 main();
 
-},{"./pages/welcome":"fNSF3"}],"fNSF3":[function(require,module,exports) {
+},{"./router":"4QFWt","./components/header":"6hCU4","./components/footer":"aoxsu","./components/normal-button":"j9Fnn","./components/outlined-button":"bVg9O","./components/select-input":"B62DR","./components/text":"6Xncd","./components/text-input":"iWTd3"}],"4QFWt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initWelcomePage", ()=>initWelcomePage);
-var _header = require("../../components/header");
-var _largeTitle = require("../../components/large-title");
-var _text = require("../../components/text");
-var _mediumTitle = require("../../components/medium-title");
-var _textInput = require("../../components/text-input");
-var _normalButton = require("../../components/normal-button");
-var _footer = require("../../components/footer");
-function initWelcomePage() {
-    const div = document.createElement("div");
-    div.innerHTML = `
-  <header-custom></header-custom>
-  <large-title-custom></large-title-custom>
-  <text-custom></text-custom>
-  <medium-title-custom></medium-title-custom>
-  <text-input-custom label="Nombre"></text-input-custom>
-  <button-custom></button-custom>
-  <footer-custom></footer-custom>
-  `;
-    (0, _header.initHeader)();
-    (0, _largeTitle.initLargeTitle)("Te damos la bienvenida a esta p\xe1gina");
-    (0, _text.initBodyText)("Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam consequuntur iure voluptas quia accusantium voluptatum aspernatur provident et repudiandae quam veritatis, libero porro sit beatae laboriosam a aut consequatur quidem?");
-    (0, _mediumTitle.initMediumTitle)("Para continuar ingres\xe1 tu nombre");
-    (0, _textInput.initTextInput)();
-    (0, _normalButton.initButton)("Comenzar");
-    (0, _footer.initFooter)();
-    return div;
-}
-
-},{"../../components/header":"6hCU4","../../components/large-title":"dmAWJ","../../components/text":"6Xncd","../../components/medium-title":"iCnXl","../../components/text-input":"iWTd3","../../components/normal-button":"j9Fnn","../../components/footer":"aoxsu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6hCU4":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initHeader", ()=>initHeader);
-function initHeader() {
-    class CustomHeader extends HTMLElement {
-        constructor(){
-            super();
-            this.render();
-        }
-        render() {
-            this.innerHTML = `<header> Header </header>`;
-            this.style.fontFamily = "Poppins";
-            this.style.fontSize = "22px";
-            this.style.display = "flex";
-            this.style.justifyContent = "center";
-            this.style.alignItems = "center";
-            this.style.backgroundColor = "#FF8282";
-            this.style.height = "60px";
+parcelHelpers.export(exports, "initRouter", ()=>initRouter);
+var _welcome = require("./pages/welcome");
+var _index = require("./pages/step-one/index");
+const routes = [
+    {
+        path: /\/welcome/,
+        component: (0, _welcome.initWelcomePage)
+    },
+    {
+        path: /\/step-one/,
+        component: (0, _index.initStepOnePage)
+    }, 
+];
+function initRouter(container) {
+    function goTo(path) {
+        history.pushState({}, "", path);
+        handleRoute(path);
+    }
+    function handleRoute(route) {
+        console.log("El handleRoute recibio la ruta" + route);
+        for (const r of routes)if (r.path.test(route)) {
+            const el = r.component({
+                goTo: goTo
+            });
+            if (container.firstChild) container.firstChild.remove();
+            container.appendChild(el);
         }
     }
-    customElements.define("header-custom", CustomHeader);
+    if (location.pathname == "/") goTo("/welcome");
+    else handleRoute(location.pathname);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./pages/welcome":"fNSF3","./pages/step-one/index":"3Jpwy"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -625,109 +618,93 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"dmAWJ":[function(require,module,exports) {
+},{}],"fNSF3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initLargeTitle", ()=>initLargeTitle);
-function initLargeTitle(content) {
-    class CustomLargeTitle extends HTMLElement {
-        constructor(){
-            super();
-            this.render();
-        }
-        render() {
-            this.innerHTML = `${content}`;
-            this.style.fontFamily = "Poppins";
-            this.style.fontSize = "52px";
-            this.style.fontWeight = "900";
-        }
-    }
-    customElements.define("large-title-custom", CustomLargeTitle);
+parcelHelpers.export(exports, "initWelcomePage", ()=>initWelcomePage);
+function initWelcomePage(params) {
+    const div = document.createElement("div");
+    div.innerHTML = `
+  <header-custom></header-custom>
+  <text-custom variant="large-title">Te damos la bienvenida a esta página</text-custom>
+  <text-custom variant="body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam consequuntur iure voluptas quia accusantium voluptatum aspernatur provident et repudiandae quam veritatis, libero porro sit beatae laboriosam a aut consequatur quidem?</text-custom>
+  <text-custom variant="small-title">Para continuar ingresá tu nombre</text-custom>
+  <text-input-custom label="Nombre" type="text"></text-input-custom>
+  <button-custom></button-custom>
+  <footer-custom></footer-custom>
+  `;
+    const algo = div.getElementsByTagName("button-custom");
+    algo[0].addEventListener("click", ()=>{
+        params.goTo("/step-one");
+    });
+    return div;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6Xncd":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3Jpwy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initBodyText", ()=>initBodyText);
-function initBodyText(content) {
-    class CustomBodyText extends HTMLElement {
-        constructor(){
-            super();
-            this.render();
-        }
-        render() {
-            this.innerHTML = `${content}`;
-            this.style.fontFamily = "Poppins";
-            this.style.fontSize = "18px";
-            this.style.fontWeight = "400";
-        }
-    }
-    customElements.define("text-custom", CustomBodyText);
+parcelHelpers.export(exports, "initStepOnePage", ()=>initStepOnePage);
+function initStepOnePage(params) {
+    const div = document.createElement("div");
+    div.innerHTML = `
+  <header-custom></header-custom>
+  <text-custom variant="large-title">Hola q tal</text-custom>
+  <text-input-custom label="Email" type="Email"></text-input-custom>
+  <text-input-custom label="Comida Favorita" type="text"></text-input-custom>
+  <select-custom label="Elegi algo"></select-custom>
+  <button-custom></button-custom>
+  <outlined-button-custom></outlined-button-custom>
+  <footer-custom></footer-custom>
+  `;
+    return div;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iCnXl":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6hCU4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initMediumTitle", ()=>initMediumTitle);
-function initMediumTitle(content) {
-    class CustomMediumTitle extends HTMLElement {
+parcelHelpers.export(exports, "initHeader", ()=>initHeader);
+function initHeader() {
+    class CustomHeader extends HTMLElement {
         constructor(){
             super();
             this.render();
         }
         render() {
-            this.innerHTML = `${content}`;
+            this.innerHTML = `<header> Header </header>`;
             this.style.fontFamily = "Poppins";
-            this.style.fontSize = "38px";
-            this.style.fontWeight = "700";
+            this.style.fontSize = "22px";
+            this.style.display = "flex";
+            this.style.justifyContent = "center";
+            this.style.alignItems = "center";
+            this.style.backgroundColor = "#FF8282";
+            this.style.height = "60px";
         }
     }
-    customElements.define("medium-title-custom", CustomMediumTitle);
+    customElements.define("header-custom", CustomHeader);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iWTd3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aoxsu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initTextInput", ()=>initTextInput);
-function initTextInput() {
-    class CustomTextInput extends HTMLElement {
+parcelHelpers.export(exports, "initFooter", ()=>initFooter);
+function initFooter() {
+    class CustomFooter extends HTMLElement {
         constructor(){
             super();
             this.render();
         }
         render() {
-            const shadow = this.attachShadow({
-                mode: "open"
-            });
-            const labelEl = this.getAttribute("label");
-            const style = document.createElement("style");
-            style.innerHTML = `
-      .root{
-        display: flex;
-        flex-direction: column;
-    }
-    .label{
-        font-size: 18px;
-    }
-    .input{
-        margin-top: 3px;
-        border: solid 2px black;
-        border-radius: 4px;
-        padding: 17px 13px;
-        font-size:18px;
-    }
-      `;
-            const div = document.createElement("div");
-            div.classList.add("root");
-            div.innerHTML = `
-      <label class="label">${labelEl}</label>
-      <input class="input" type="text" placeholder="Ingrese su ${labelEl}">
-      `;
-            shadow.appendChild(style);
-            shadow.appendChild(div);
+            this.innerHTML = `<footer> Footer </Footer>`;
+            this.style.fontFamily = "Poppins";
+            this.style.fontSize = "22px";
+            this.style.display = "flex";
+            this.style.justifyContent = "center";
+            this.style.alignItems = "center";
+            this.style.backgroundColor = "#FFA0EA";
+            this.style.height = "150px";
         }
     }
-    customElements.define("text-input-custom", CustomTextInput);
+    customElements.define("footer-custom", CustomFooter);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j9Fnn":[function(require,module,exports) {
@@ -774,28 +751,196 @@ function initButton(content) {
     customElements.define("button-custom", CustomButton);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aoxsu":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bVg9O":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initFooter", ()=>initFooter);
-function initFooter() {
-    class CustomFooter extends HTMLElement {
+parcelHelpers.export(exports, "initOutlinedButton", ()=>initOutlinedButton);
+function initOutlinedButton(content) {
+    class CustomOutlinedButton extends HTMLElement {
         constructor(){
             super();
             this.render();
         }
         render() {
-            this.innerHTML = `<footer> Footer </Footer>`;
-            this.style.fontFamily = "Poppins";
-            this.style.fontSize = "22px";
-            this.style.display = "flex";
-            this.style.justifyContent = "center";
-            this.style.alignItems = "center";
-            this.style.backgroundColor = "#FFA0EA";
-            this.style.height = "150px";
+            const shadow = this.attachShadow({
+                mode: "open"
+            });
+            const labelEl = this.getAttribute("label");
+            const style = document.createElement("style");
+            style.innerHTML = `
+          .root{
+              height: 65px;
+              display: flex;
+              justify-content: center;
+          }
+          .button{
+              background-color: white;
+              border: solid 3px;
+              flex-grow: 1;
+              max-width: 450px;
+              font-size: 22px;
+              font-family: "Poppins";
+              font-weight: 500;
+          }
+          
+          `;
+            const div = document.createElement("div");
+            div.classList.add("root");
+            div.innerHTML = `
+          <button class="button"><span>${content}</span></button>
+          `;
+            shadow.appendChild(style);
+            shadow.appendChild(div);
         }
     }
-    customElements.define("footer-custom", CustomFooter);
+    customElements.define("outlined-button-custom", CustomOutlinedButton);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"B62DR":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initSelectInput", ()=>initSelectInput);
+function initSelectInput() {
+    class CustomSelectInput extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            const shadow = this.attachShadow({
+                mode: "open"
+            });
+            const labelEl = this.getAttribute("label");
+            const style = document.createElement("style");
+            style.innerHTML = `
+      .root{
+        heigth: 60px;
+        display: flex;
+        flex-direction: column;
+    }
+    .label{
+        font-size: 18px;
+    }
+    .input{
+        margin-top: 3px;
+        border: solid 2px black;
+        border-radius: 4px;
+        padding: 17px 13px;
+        font-size:18px;
+    }
+      `;
+            const div = document.createElement("div");
+            div.classList.add("root");
+            div.innerHTML = `
+      <label class="label">${labelEl}</label>
+      <select class="input" name="" id=""> 
+      <option value="1">1</option>
+      <option value="1">2</option>
+      <option value="1">3</option>
+      </select>
+      `;
+            shadow.appendChild(style);
+            shadow.appendChild(div);
+        }
+    }
+    customElements.define("select-custom", CustomSelectInput);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6Xncd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initText", ()=>initText);
+function initText() {
+    class CustomText extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            const shadow = this.attachShadow({
+                mode: "open"
+            });
+            const variant = this.getAttribute("variant");
+            const div = document.createElement("div");
+            div.textContent = this.textContent;
+            const style = document.createElement("style");
+            style.innerHTML = `
+
+        .large-title, .medium-title, .small-title, .body{
+          font-family: "Poppins";
+        }
+
+        .large-title{
+          font-size: 52px;
+          font-weight: 900;
+        }
+        .medium-title{
+          font-size: 38px;
+          font-weight: 700;
+        }
+        .small-title{
+          font-size: 22px;
+          font-weigth:500;
+        }
+
+        .body{
+          font-size: 18px;
+          font-weight: 400;
+        }
+        }
+      `;
+            div.className = `${variant}`;
+            shadow.appendChild(style);
+            shadow.appendChild(div);
+        }
+    }
+    customElements.define("text-custom", CustomText);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iWTd3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initTextInput", ()=>initTextInput);
+function initTextInput() {
+    class CustomTextInput extends HTMLElement {
+        constructor(){
+            super();
+            this.render();
+        }
+        render() {
+            const shadow = this.attachShadow({
+                mode: "open"
+            });
+            const labelEl = this.getAttribute("label");
+            const typeEl = this.getAttribute("type");
+            const style = document.createElement("style");
+            style.innerHTML = `
+      .root{
+        display: flex;
+        flex-direction: column;
+    }
+    .label{
+        font-size: 18px;
+    }
+    .input{
+        margin-top: 3px;
+        border: solid 2px black;
+        border-radius: 4px;
+        padding: 17px 13px;
+        font-size:18px;
+    }
+      `;
+            const div = document.createElement("div");
+            div.classList.add("root");
+            div.innerHTML = `
+      <label class="label">${labelEl}</label>
+      <input class="input" type=${typeEl} placeholder="Ingrese su ${labelEl}">
+      `;
+            shadow.appendChild(style);
+            shadow.appendChild(div);
+        }
+    }
+    customElements.define("text-input-custom", CustomTextInput);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["iJYvl","h7u1C"], "h7u1C", "parcelRequireca0a")

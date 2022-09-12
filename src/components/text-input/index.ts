@@ -7,6 +7,7 @@ export function initTextInput() {
     render() {
       const shadow = this.attachShadow({ mode: "open" });
       const labelEl = this.getAttribute("label");
+      const typeEl = this.getAttribute("type");
       const style = document.createElement("style");
       style.innerHTML = `
       .root{
@@ -29,7 +30,7 @@ export function initTextInput() {
       div.classList.add("root");
       div.innerHTML = `
       <label class="label">${labelEl}</label>
-      <input class="input" type="text" placeholder="Ingrese su ${labelEl}">
+      <input class="input" type=${typeEl} placeholder="Ingrese su ${labelEl}">
       `;
       shadow.appendChild(style);
       shadow.appendChild(div);
